@@ -19,10 +19,10 @@ func NewMarkov() *MarkovChain {
 
 func (mc *MarkovChain) Parse(s string) {
 	words := strings.Split(s, " ")
-	word_count := len(words)
+	wordCount := len(words)
 
-	for i := 0; i <= word_count; i++ {
-		if i+2 < word_count {
+	for i := 0; i <= wordCount; i++ {
+		if i+2 < wordCount {
 			key := fmt.Sprintf("%s %s", words[i], words[i+1])
 			value := fmt.Sprintf("%s", words[i+2])
 
@@ -56,12 +56,12 @@ func (mc *MarkovChain) GenerateSentence() string {
 
 	for {
 		if values, ok := mc.Chain[key]; ok {
-			first_word := strings.Split(key, " ")[1]
-			second_word := randomArrayElement(values)
+			firstWord := strings.Split(key, " ")[1]
+			secondWord := randomArrayElement(values)
 
-			sentence = fmt.Sprintf("%s %s", sentence, second_word)
+			sentence = fmt.Sprintf("%s %s", sentence, secondWord)
 
-			key = fmt.Sprintf("%s %s", first_word, second_word)
+			key = fmt.Sprintf("%s %s", firstWord, secondWord)
 		} else {
 			break
 		}

@@ -73,14 +73,6 @@ func (mc *MarkovChain) GenerateSentence() string {
 func randomArrayElement(enum []string) string {
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(enum))
-	var key string
 
-	for _, key = range enum {
-		if i == 0 {
-			break
-		}
-		i--
-	}
-
-	return key
+	return enum[i]
 }

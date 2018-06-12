@@ -9,7 +9,9 @@ import (
 )
 
 func main() {
-	fmt.Println("Connecting to Slack...")
+	markov := NewMarkov()
+	markov.Parse("I really like reeses but I do not really like almond joys.")
+
 	bot_api_key, present := os.LookupEnv("BOT_API_KEY")
 	if !present {
 		fmt.Println("BOT_API_KEY environtment variable missing")
@@ -30,14 +32,16 @@ func main() {
 			bot_id = ev.Info.User.ID
 			bot_name = ev.Info.User.Name
 		case *slack.MessageEvent:
-			fmt.Printf("Message: %v\n", ev)
-
 			bot_id_regex := regexp.MustCompile(
 				fmt.Sprintf("(?i)<@%s>|%s|business", bot_id, bot_name),
 			)
 
 			if bot_id_regex.MatchString(ev.Text) {
-				fmt.Println("YOOOO!")
+				message := markov.GenerateSentence()
+
+				rtm.SendMessage(
+					rtm.NewOutgoingMessage(message, ev.Channel),
+				)
 			}
 		}
 	}
